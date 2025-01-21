@@ -2,17 +2,23 @@
 
 const user1 = {
   name: "Alex",
-  birthday: "1991-01-01",
+  birthday: "2011-01-21",
 };
 
 function getBirthday(user) {
   const nowDate = new Date();
   const userBirthday = new Date(user.birthday);
 
-  if ((nowDate.getFullYear() - userBirthday.getFullYear()) > 14) {
-    return true;
+  let age = nowDate.getFullYear() - userBirthday.getFullYear();
+
+  if (
+    nowDate.getMonth() < userBirthday.getMonth() ||
+    (nowDate.getMonth() === userBirthday.getMonth() &&
+      nowDate.getDate() < userBirthday.getDate())
+  ) {
+    age--; // Уменьшаем возраст, если день рождения еще не был в текущем году
   }
-  return false;
+  return age >= 14;
 }
 
 console.log(getBirthday(user1));
