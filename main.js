@@ -1,5 +1,6 @@
 "use strict";
 
+
 fetch("https://pokeapi.co/api/v2/pokemon/ditto")
   .then((response) => {
     if (!response.ok) {
@@ -16,3 +17,4 @@ fetch("https://pokeapi.co/api/v2/pokemon/ditto")
     console.log(result);
   })
   .catch((error) => console.error("Error:", error.message));
+
