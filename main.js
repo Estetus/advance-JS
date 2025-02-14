@@ -1,29 +1,34 @@
 "use strict";
 
-const request = new XMLHttpRequest();
-
-request.open("GET", "https://pokeapi.co/api/v2/pokemon/ditto");
-
-request.send();
-
-request.addEventListener("load", function () {
-  const { abilities } = JSON.parse(this.responseText);
-
-  console.log(abilities);
-
-  if (abilities.length > 0) {
-    const abilityUrl = abilities[0].ability.url;
-    const secondRequest = new XMLHttpRequest();
-
-    secondRequest.open("GET", abilityUrl);
-
-    secondRequest.send();
-    secondRequest.addEventListener("load", function () {
-      const { effect_entries } = JSON.parse(this.responseText);
-      const result = effect_entries.filter(
-        (item) => item.language.name === "en"
-      );
-      console.log(result);
-    });
-  }
+const promise1 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Промис 1");
+  }, 1000);
 });
+
+const promise2 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Промис 2");
+  }, 3000);
+});
+
+const promise3 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Промис 3");
+  }, 6000);
+});
+
+function race(promises) {
+  return new Promise((resolve, reject) => {
+    if (!Array.isArray(promises)) {
+      reject(new Error("Ожидается массив"));
+    }
+    promises.forEach((promise) => {
+      Promise.resolve(promise).then(resolve).catch(reject);
+    });
+  });
+}
+
+race([promise1, promise2, promise3])
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
