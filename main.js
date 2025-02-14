@@ -1,29 +1,31 @@
 "use strict";
 
-const request = new XMLHttpRequest();
+function getCurrentLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Геолокация не дружит с вашим браузером"));
+    } else {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    }
+  });
+}
 
-request.open("GET", "https://pokeapi.co/api/v2/pokemon/ditto");
+getCurrentLocation()
+  .then((position) => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(`Широта : ${latitude}, Долгота: ${longitude}`);
 
-request.send();
-
-request.addEventListener("load", function () {
-  const { abilities } = JSON.parse(this.responseText);
-
-  console.log(abilities);
-
-  if (abilities.length > 0) {
-    const abilityUrl = abilities[0].ability.url;
-    const secondRequest = new XMLHttpRequest();
-
-    secondRequest.open("GET", abilityUrl);
-
-    secondRequest.send();
-    secondRequest.addEventListener("load", function () {
-      const { effect_entries } = JSON.parse(this.responseText);
-      const result = effect_entries.filter(
-        (item) => item.language.name === "en"
-      );
-      console.log(result);
-    });
-  }
-});
+    document.body.innerHTML = `
+      <h1>Ваши координаты:</h1>
+      <p>Широта: ${latitude}</p>
+      <p>Долгота: ${longitude}</p>
+    `;
+  })
+  .catch((error) => {
+    console.error("Ошибка при получении геопозиции", error.message);
+    document.body.innerHTML = `<h1>Ошибка: ${error.message}</h1>`;
+  })
+  .finally(() => {
+    console.log("Запрос геолокации завершен.");
+  });
