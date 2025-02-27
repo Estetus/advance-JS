@@ -1,0 +1,31 @@
+{
+  "name": "user-app",
+  "version": "1.0.0",
+  "description": "user task",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Estetus/advance-JS.git"
+  },
+  "keywords": [
+    "user"
+  ],
+  "author": "artem bazarov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Estetus/advance-JS/issues"
+  },
+  "homepage": "https://github.com/Estetus/advance-JS#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "live-server": "^1.2.2",
+    "rollup": "^4.34.8"
+  }
+}
